@@ -1,16 +1,16 @@
-# -*- coding: utf-8 -*-
-"""
-"""
-
-from bs4 import BeautifulSoup
-import requests
-import pandas as pd
-import dateutil.parser as dparser
-from datetime import date, timedelta
-import numpy as np
 import re
+import os
 import time
+import requests
+import numpy as np
 import pandas as pd
+from bs4 import BeautifulSoup
+from datetime import date, timedelta
+import dateutil.parser as dparser
+
+DATA_FILEPATH = os.path.join(os.path.dirname(os.getcwd()),'data')
+LINKS_FILEPATH = os.path.join(DATA_FILEPATH,'links.txt')
+ARTICLE_FILEPATH = os.path.join(DATA_FILEPATH,'article_data.csv')
 
 ### @param url: takes url of news page of moneycontrol website
 ### @ returns list of articles on the page
@@ -72,7 +72,7 @@ def parse_article(article):
 ##
 ##
 def main():
-  with open('links.txt') as f:
+  with open(LINKS_FILEPATH) as f:
     links = f.readlines()
   f.close()
 
@@ -87,7 +87,7 @@ def main():
     try:
       article = requests.get(links[i])
       row = parse_article(article)
-      (pd.Series(row)).to_csv('article_data.csv',mode='a')
+      (pd.Series(row)).to_csv(ARTICLE_FILEPATH,mode='a')
       print(f'article {i} added')
     except Exception as e:    
       continue

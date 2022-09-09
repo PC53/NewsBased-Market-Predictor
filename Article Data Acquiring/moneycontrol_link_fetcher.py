@@ -1,27 +1,21 @@
-# -*- coding: utf-8 -*-
-"""
-    
-"""
-
-# !pip install html5lib
-
-from urllib.request import Request, urlopen
-from bs4 import BeautifulSoup
-import requests
-from datetime import date, timedelta
+import os
 import time
+import requests
+from bs4 import BeautifulSoup
+from datetime import date, timedelta
+from urllib.request import Request, urlopen
 
-START_DATE = date(2019,10,1) 
+START_DATE = date(2019,1,21) 
 END_DATE = date(2022,8,30)
 
-# article_links = []
+LINKS_FILEPATH = os.path.join(os.path.dirname(os.getcwd()),'data/links.txt')
 base = 'https://www.google.com'
 query = ''
 
 ####
 
 def get_soup_from_url(url):  
-  time.sleep(5)
+  time.sleep(8)
   webpage = requests.get(url).text
   
   print("Webpage Opened")
@@ -39,7 +33,7 @@ def get_links_from_current_page(soup):
     # print(link)
     if link.startswith('/url?q=https://www.moneycontrol.com/news/'):
         link = link.split('=')[1].split('&sa')[0]
-        file1 = open("links.txt", "a")  
+        file1 = open(LINKS_FILEPATH, "a")  
         file1.write(f'{link}\n')
         file1.close()
         print("link added")
