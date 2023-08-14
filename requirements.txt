@@ -1,0 +1,5 @@
+pandas-market-calendars
+yfinance
+pyspark
+spark-nlp==4.1.0
+nltk
